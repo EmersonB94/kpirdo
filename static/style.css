@@ -1,0 +1,177 @@
+
+body {
+  background-image: url("../imagem/trabalho.png");
+  background-size: cover;        /* Faz a imagem preencher a tela */
+  background-position: center;   /* Centraliza a imagem */
+  background-repeat: no-repeat;  /* Evita que a imagem se repita */
+  height: 100vh;                 /* Ocupa 100% da altura da tela */
+  margin: 0;                     /* Remove margens padrão */
+  font-family: Arial, sans-serif;
+  background-color: #f4f6fc;
+  padding: 0;
+}
+
+.container {
+  width: 90%;                           /* Largura ocupa 90% da tela */
+  max-width: 900px;                     /* Largura máxima limitada a 900px */
+  margin: 50px auto;                    /* Margem superior/inferior de 30px e centralização horizontal */
+  background: #fff;                     /* Fundo branco do container */
+  padding: 30px;                        /* Espaçamento interno de 20px */
+  border-radius: 20px;                  /* Bordas arredondadas de 12px */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra suave ao redor do container */
+  background: rgba(255, 255, 255, 0.9); /* Fundo branco levemente transparente */
+}
+
+.containerForm {
+  width: 100%;                          /* Largura ocupa 90% da tela */
+  max-width: 500px;                     /* Largura máxima limitada a 900px */
+  margin: 10px auto;                    /* Margem superior/inferior de 30px e centralização horizontal */
+  background: #fff;                     /* Fundo branco do container */
+  padding: 20px;                        /* Espaçamento interno de 20px */
+  border-radius: 20px;                  /* Bordas arredondadas de 12px */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra suave ao redor do container */
+  background: rgba(255, 255, 255, 0.9); /* Fundo branco levemente transparente */
+}
+
+
+h1, h2 {
+  color: #0E3E98;
+  text-align: center;
+}
+
+input, select, textarea, button {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  background-color: #0E3E98;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0D187D;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #0E3E98;
+  color: white;
+}
+
+.navbar {
+  background-color: #0E3E98;
+  padding: 10px;
+  text-align: center;
+}
+
+.navbar a {
+  color: #fff;                   /* Texto branco */
+  text-decoration: none;         /* Remove o sublinhado */
+  padding: 10px 15px;            /* Espaçamento interno */
+  border-radius: 6px;            /* Bordas levemente arredondadas */
+  transition: background 0.3s;   /* Animação suave no hover */
+}
+
+.navbar a:hover {
+  background-color: #0D187D;     /* Azul mais escuro ao passar o mouse */
+  text-decoration: underline;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+/* Estilo do modal */
+.modal {
+  display: none; /* oculto por padrão */
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contentlogin {
+  background: rgba(255, 255, 255, 0.9); /* Fundo branco levemente transparente */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  max-width: 400px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-novo {
+  width: auto;      /* Ajusta à largura do conteúdo */
+  padding: 8px 32px;
+  display: inline-block;
+  margin-bottom: 5px; /* espaço embaixo */
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  width: 220px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  color: #0E3E98;
+  margin-top: 0;
+}
