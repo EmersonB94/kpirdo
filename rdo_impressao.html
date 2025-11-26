@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>RDO - Impressão</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .campo {
+      margin-bottom: 10px;
+    }
+    .campo label {
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: none;
+      border: 1px solid #ccc;
+      padding: 5px;
+    }
+    .anexos {
+      margin-top: 10px;
+    }
+    .print-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    @media print {
+      .print-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Registro Diário de Obra</h1>
+
+  <div class="campo"><label>Obra:</label> <span id="obra"></span></div>
+  <div class="campo"><label>Cliente:</label> <span id="cliente"></span></div>
+  <div class="campo"><label>Responsável:</label> <span id="responsavel"></span></div>
+  <div class="campo"><label>Data:</label> <span id="datardo"></span></div>
+  <div class="campo"><label>Nº Contrato:</label> <span id="NContrato"></span></div>
+  <div class="campo"><label>Endereço:</label> <span id="localObra"></span></div>
+  <div class="campo"><label>Status:</label> <span id="status"></span></div>
+  
+  <div class="campo">
+    <label>Atividades do dia:</label>
+    <textarea id="atividades" readonly></textarea>
+  </div>
+  <div class="campo">
+    <label>Observações:</label>
+    <textarea id="observacoes" readonly></textarea>
+  </div>
+  <div class="campo anexos">
+    <label>Anexos:</label>
+    <ul id="anexosLista"></ul>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">Imprimir</button>
+
+  <script>
+    // Recupera o RDO do localStorage
+    const rdo = JSON.parse(localStorage.getItem('rdoParaImpressao'));
+    if (rdo) {
+      document.getElementById('obra').textContent = rdo.obra || '-';
+      document.getElementById('cliente').textContent = rdo.cliente || '-';
+      document.getElementById('responsavel').textContent = rdo.responsavel || '-';
+      document.getElementById('datardo').textContent = rdo.data || '-';
+      document.getElementById('NContrato').textContent = rdo.NContrato || '-';
+      document.getElementById('localObra').textContent = rdo.localObra || '-';
+      document.getElementById('status').textContent = rdo.status || '-';
+      document.getElementById('atividades').value = rdo.atividades || '-';
+      document.getElementById('observacoes').value = rdo.observacoes || '-';
+
+      const anexosLista = document.getElementById('anexosLista');
+      if (rdo.anexo && rdo.anexo.length > 0) {
+        rdo.anexo.forEach(f => {
+          const li = document.createElement('li');
+          li.textContent = f;
+          anexosLista.appendChild(li);
+        });
+      } else {
+        anexosLista.innerHTML = '<li>-</li>';
+      }
+    }
+  </script>
+</body>
+</html>

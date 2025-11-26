@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro Diário de Obra - RDO</title>
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<style>
+  /* Fundo escuro */
+.modal {
+  display: none; /* Começa escondido */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+/* Caixa branca do formulário */
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  min-width: 350px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* X de fechar */
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover {
+  color: red;
+}
+
+</style>
+
+	<body>
+	<div class="navbar">
+		<a href="inicio">Início</a>
+		<a href="obras">Obras</a>
+		<a href="usuario">Usuários</a>
+		<a href="rdo">RDO</a>
+		<a href="#" onclick="logout()">Sair</a>
+  </div>
+
+  <!-- Modal do formulário -->
+  <div id="modalRDO" class="modal" style="display:none">
+    <div class="modal-content">
+      <h1 id="tituloModal">Novo registro diário</h1>
+
+      <label>Obra:</label>
+      <!-- <select id="obraSelect"></select> -->
+	  <input type="text" id="obraSelect" placeholder="Obra" >
+
+      <input type="text" id="cliente" placeholder="Cliente" >
+      <input type="text" id="responsavel" placeholder="Responsável" >
+      <input type="date" id="datardo" placeholder="Data">
+      <input type="text" id="NContrato" placeholder="Nº Contrato" >
+      <input type="text" id="localObra" placeholder="Endereço" >
+
+      <textarea id="atividades" placeholder="Atividades do dia"></textarea>
+      <textarea id="observacoes" placeholder="Observações"></textarea>
+
+      <label>Status</label>
+      <select id="status" name="status">
+        <option value="Aprovado">Aprovado</option>
+        <option value="Revisar relatório">Revisar relatório</option>
+        <option value="Em análise">Em análise</option>
+      </select>
+
+      <!-- <label>Anexos (apenas nomes no momento)</label>
+      <input type="file" id="anexo" name="anexo" multiple> -->
+
+      <div style="margin-top:12px;">
+        <button id="salvarBtn" onclick="salvarRDO()">Salvar Registro</button>
+        <button id="cancelarEdicaoBtn" onclick="cancelarEdicao()" style="display:none">Cancelar Edição</button>
+        <button onclick="fecharModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Registros</h2>
+
+    <button class="btn-novo" onclick="abrirModal()">Novo RDO</button>
+    <button class="btn-novo" onclick="exportarRDO()">Exportar</button>
+    <button class="btn-novo" onclick="document.getElementById('inputImportar').click()">Importar Excel/CSV</button>
+    <input type="file" id="inputImportar" accept=".xlsx, .xls, .csv, text/csv" style="display: none;" onchange="importarRDO(event)">
+
+    <table id="tabelaRDO">
+      <thead>
+        <tr><th>Data</th><th>Obra</th><th>Atividades</th><th>Observações</th><th>Status</th><th>Ações</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="static/js/rdo.js"></script>
+</body>
+</html>

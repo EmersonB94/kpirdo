@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Obras - RDO</title>
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<style>
+  /* Fundo escuro */
+.modal {
+  display: none; /* Começa escondido */
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+/* Caixa branca do formulário */
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  min-width: 350px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* X de fechar */
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover {
+  color: red;
+}
+
+</style>
+
+<body>
+  <div class="navbar">
+    <a href="inicio">Início</a>
+    <a href="obras">Obras</a>
+    <a href="usuario">Usuários</a>
+    <a href="rdo">RDO</a>
+    <a href="#" onclick="logout()">Sair</a>
+  </div>
+
+  <!-- Modal do formulário -->
+  <div id="modalObra" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <h1>Cadastro de Obras</h1>
+
+      <input type="text" id="nomeObra" placeholder="Nome da Obra">
+      <input type="text" id="localObra" placeholder="Endereço (Local / Cidade)">
+      <input type="text" id="NContrato" placeholder="Número de contrato">
+      <input type="text" id="responsavelObra" placeholder="Responsável">
+      <input type="text" id="Contratante" placeholder="Contratante (Ex. Prefeitura)">
+
+      <!-- Novos campos -->
+      <label for="coordenacao">Coordenação de Produção:</label>
+      <select id="coordenacao"></select>
+
+      <label for="fiscalizacao">Fiscalização:</label>
+      <select id="fiscalizacao"></select>
+
+      <label for="gerenteConstrucao">Gerente de Construção:</label>
+      <select id="gerenteConstrucao"></select>
+
+      <label for="dtinicio">Período de atividades:</label>
+      <p>
+        <label> Início </label>
+        <input type="date" id="dtinicio">
+        <label> Término </label>
+        <input type="date" id="dtfim">
+      </p>
+
+      <label for="status">Status:</label>
+      <select id="status" name="status">
+        <option value="Não iniciada">Não iniciada</option>
+        <option value="Paralisada">Paralisada</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Concluída">Concluída</option>
+        <option value="Cancelada">Cancelada</option>
+      </select>
+
+      <button onclick="salvarObra()">Salvar</button>
+      <button onclick="cancelarEdicao()">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Obras Cadastradas</h2>
+    <button class="btn-novo" onclick="abrirModal()">Nova Obra</button>
+    <button class="btn-novo" onclick="exportarObrasExcel()">Exportar dados</button>
+    <button class="btn-novo" onclick="document.getElementById('inputImportar').click()">Importar Excel</button>
+    <input type="file" id="inputImportar" accept=".xlsx, .xls" style="display: none;" onchange="importarObrasExcel(event)">
+
+    <table id="tabelaObras">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Local</th>
+          <th>Responsável</th>
+          <th>Conclusão</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="static/js/obras.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</body>
+</html>
