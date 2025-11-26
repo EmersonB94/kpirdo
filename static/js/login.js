@@ -1,8 +1,12 @@
+// Ajuste a base API conforme seu ambiente
+const isLocal = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+const API_BASE = isLocal ? "http://127.0.0.1:5000" : "https://kpirdo.onrender.com";
+
 function login() {
   const email = document.getElementById('email').value;
   const senha = document.getElementById('senha').value;
 
-  fetch("http://localhost:5000/login", {
+  fetch(`${API_BASE}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, senha })
@@ -52,7 +56,7 @@ function salvarUsuario() {
     status: document.getElementById('status').value
   };
 
-  fetch("http://localhost:5000/usuario", {
+  fetch(`${API_BASE}/usuario`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)

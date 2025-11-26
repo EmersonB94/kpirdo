@@ -45,8 +45,8 @@ async function carregarDadosObra() {
   if (!obraId) {
     document.getElementById('cliente').value = "";
     document.getElementById('responsavel').value = "";
-    document.getElementById('NContrato').value = "";
-    document.getElementById('localObra').value = "";
+    document.getElementById('ncontrato').value = "";
+    document.getElementById('localobra').value = "";
     return;
   }
 
@@ -59,8 +59,8 @@ async function carregarDadosObra() {
     // Ajuste nomes de propriedades conforme seu backend
     document.getElementById('cliente').value = obra.nome;
     document.getElementById('responsavel').value = obra.responsavel;
-    document.getElementById('NContrato').value = obra.contraton;
-    document.getElementById('localObra').value = obra.endereco;
+    document.getElementById('ncontrato').value = obra.contraton;
+    document.getElementById('localobra').value = obra.endereco;
 
   } catch (err) {
     console.error("Erro carregar dados da obra:", err);
@@ -73,8 +73,8 @@ async function salvarRDO() {
     obra: (document.getElementById('obraSelect').value),
     cliente: document.getElementById('cliente').value,
     responsavel: document.getElementById('responsavel').value,
-    NContrato: document.getElementById('NContrato').value,
-    localObra: document.getElementById('localObra').value,
+    ncontrato: document.getElementById('ncontrato').value,
+    localobra: document.getElementById('localobra').value,
     atividades: document.getElementById('atividades').value,
     observacoes: document.getElementById('observacoes').value,
     status: document.getElementById('status').value,
@@ -122,7 +122,7 @@ async function editarRDO(id) {
     rdoEditando = id;
 
     // r.obra pode ser id => definimos o select para esse id
-    document.getElementById('obraSelect').value = r.obra || r.obra_id || "";
+    document.getElementById('obraSelect').value = r.obra || "";
     // depois que definir o select, carregar dados da obra para preencher campos readonly
     await carregarDadosObra();
 
@@ -152,7 +152,6 @@ function limparCampos() {
   document.getElementById('atividades').value = '';
   document.getElementById('observacoes').value = '';
   document.getElementById('datardo').value = '';
-  document.getElementById('anexo').value = '';
   document.getElementById('status').value = 'Aprovado';
   document.getElementById('obraSelect').value = '';
   carregarDadosObra();
@@ -236,11 +235,10 @@ async function exportarRDO() {
       "Cliente": r.cliente || "",
       "Responsável": r.responsavel || "",
       "Nº Contrato": r.contraton || r.contraton || "",
-      "Local da Obra": r.local_obra || r.localObra || "",
+      "Local da Obra": r.localobra || r.localobra || "",
       "Atividades": r.atividades || "",
       "Observações": r.observacoes || "",
-      "Status": r.status || "",
-      "Anexos": (r.anexos || []).join(", ")
+      "Status": r.status || ""
     }));
 
     const ws = XLSX.utils.json_to_sheet(dados);
@@ -281,12 +279,11 @@ function importarRDO(event) {
           obra: null,
           cliente: map['cliente'] || "",
           responsavel: map['responsavel'] || "",
-          NContrato: map['nº contrato'] || map['contraton'] || "",
-          localObra: map['local da obra'] || map['localobra'] || "",
+          ncontrato: map['nº contrato'] || map['contraton'] || "",
+          localobra: map['local da obra'] || map['localobra'] || "",
           atividades: map['atividades'] || "",
           observacoes: map['observações'] || map['observacoes'] || "",
-          status: map['status'] || "Aprovado",
-          anexo: (map['anexos'] || "").split(',').map(a => a.trim()).filter(Boolean)
+          status: map['status'] || "Aprovado"
         };
 
         // Se no CSV a coluna 'obra' vier como nome, tentamos achar o id na lista de obras localmente
@@ -326,12 +323,11 @@ function importarRDO(event) {
             obra: null,
             cliente: row['Cliente'] || row['cliente'] || "",
             responsavel: row['Responsável'] || row['Responsavel'] || "",
-            NContrato: row['Nº Contrato'] || row['NContrato'] || "",
-            localObra: row['Local da Obra'] || row['localObra'] || "",
+            ncontrato: row['Nº Contrato'] || row['ncontrato'] || "",
+            localobra: row['Local da Obra'] || row['localobra'] || "",
             atividades: row['Atividades'] || row['atividades'] || "",
             observacoes: row['Observações'] || row['observacoes'] || "",
-            status: row['Status'] || "Aprovado",
-            anexo: (row['Anexos'] || "").toString().split(',').map(a => a.trim()).filter(Boolean)
+            status: row['Status'] || "Aprovado"
           };
 
           // tentar mapear obra pelo nome (se vier)
