@@ -46,10 +46,10 @@
 
 	<body>
 	<div class="navbar">
-		<a href="inicio">Início</a>
-		<a href="obras">Obras</a>
-		<a href="usuario">Usuários</a>
-		<a href="rdo">RDO</a>
+		<a href="page_inicio">Início</a>
+    <a href="page_obras">Obras</a>
+    <a href="page_usuario">Usuários</a>
+    <a href="page_rdo" class="selecionado">RDO</a>
 		<a href="#" onclick="logout()">Sair</a>
   </div>
 
@@ -59,20 +59,76 @@
       <h1 id="tituloModal">Novo registro diário</h1>
 
       <label>Obra:</label>
-      <!-- <select id="obraSelect"></select> -->
-	  <input type="text" id="obraSelect" placeholder="Obra" >
-
-      <input type="text" id="cliente" placeholder="Cliente" >
+	    <input type="text" id="obra" placeholder="Obra" required>
+      <label>Cliente:</label>
+      <input type="text" id="cliente" placeholder="Cliente" required>
+      <label>Responsável:</label>
       <input type="text" id="responsavel" placeholder="Responsável" >
-      <input type="date" id="datardo" placeholder="Data">
-      <input type="text" id="NContrato" placeholder="Nº Contrato" >
-      <input type="text" id="localObra" placeholder="Endereço" >
+      <label>Data:</label>
+      <input type="date" id="data" placeholder="Data" required>
+      <label>Contrato:</label>
+      <input type="text" id="ncontrato" placeholder="Nº Contrato" >
+      <label>Endereço:</label>
+      <input type="text" id="localobra" placeholder="Endereço" required>
 
-      <textarea id="atividades" placeholder="Atividades do dia"></textarea>
+      <h3>Mão de Obra</h3>
+
+      <label>Ajudante:</label>
+      <input type="number" id="mo_ajudante" placeholder="Qtd Ajudantes">
+
+      <label>Laminador:</label>
+      <input type="number" id="mo_laminador" placeholder="Qtd Laminadores">
+
+      <label>Soldador Termoplástico:</label>
+      <input type="number" id="mo_soldadortemoplastico" placeholder="Qtd Soldadores">
+
+      <label>Encarregado:</label>
+      <input type="number" id="mo_encarregado" placeholder="Qtd Encarregados">
+
+      <label>Supervisor:</label>
+      <input type="number" id="mo_supervisor" placeholder="Qtd Supervisores">
+
+      <label>Inspetor de Qualidade:</label>
+      <input type="number" id="mo_inspetorqualidade" placeholder="Qtd Inspetores">
+
+      <label>Montador:</label>
+      <input type="number" id="mo_montador" placeholder="Qtd Montadores">
+
+      <label>Engenheiro:</label>
+      <input type="number" id="mo_engenheiro" placeholder="Qtd Engenheiros">
+
+      <label>Ajudante Técnico:</label>
+      <input type="number" id="mo_ajudantet" placeholder="Qtd Ajudantes Técnicos">
+
+      <label>Montador Técnico:</label>
+      <input type="number" id="mo_montadort" placeholder="Qtd Montadores Técnicos">
+
+
+      <label>Atividades:</label>
+      <textarea id="atividades" placeholder="Atividades do dia" required></textarea>
+
+      <label>Status da Atividade:</label>
+      <select id="status_atividade" required>
+        <option value="">Selecione</option>
+        <option value="Concluída">Concluída</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Pendente">Pendente</option>
+        <option value="Paralisada">Paralisada</option>
+      </select>
+
+
+      <label>Observações:</label>
       <textarea id="observacoes" placeholder="Observações"></textarea>
 
+      <label>Ocorrência:</label>
+      <textarea id="ocorrencia" placeholder="Descreva a ocorrência do dia"></textarea>
+
+      <label>Comentário:</label>
+      <textarea id="comentario" placeholder="Comentário adicional"></textarea>
+
+
       <label>Status</label>
-      <select id="status" name="status">
+      <select id="status" name="status" required>
         <option value="Aprovado">Aprovado</option>
         <option value="Revisar relatório">Revisar relatório</option>
         <option value="Em análise">Em análise</option>
@@ -83,7 +139,6 @@
 
       <div style="margin-top:12px;">
         <button id="salvarBtn" onclick="salvarRDO()">Salvar Registro</button>
-        <button id="cancelarEdicaoBtn" onclick="cancelarEdicao()" style="display:none">Cancelar Edição</button>
         <button onclick="fecharModal()">Fechar</button>
       </div>
     </div>
@@ -97,9 +152,36 @@
     <button class="btn-novo" onclick="document.getElementById('inputImportar').click()">Importar Excel/CSV</button>
     <input type="file" id="inputImportar" accept=".xlsx, .xls, .csv, text/csv" style="display: none;" onchange="importarRDO(event)">
 
+    <div style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+    <input type="text" id="filtroObra" placeholder="Filtrar por Obra">
+    <input type="text" id="filtroCliente" placeholder="Filtrar por Cliente">
+    <input type="text" id="filtroResponsavel" placeholder="Filtrar por Responsável">
+
+    <input type="date" id="filtroData">
+
+    <select id="filtroStatusAtividade">
+      <option value="">Status da Atividade</option>
+      <option value="Concluída">Concluída</option>
+      <option value="Em andamento">Em andamento</option>
+      <option value="Pendente">Pendente</option>
+      <option value="Paralisada">Paralisada</option>
+    </select>
+
+    <select id="filtroStatus">
+      <option value="">Status do RDO</option>
+      <option value="Aprovado">Aprovado</option>
+      <option value="Revisar relatório">Revisar relatório</option>
+      <option value="Em análise">Em análise</option>
+    </select>
+
+    <button onclick="aplicarFiltros()">Filtrar</button>
+    <button onclick="limparFiltros()">Limpar</button>
+  </div>
+
+
     <table id="tabelaRDO">
       <thead>
-        <tr><th>Data</th><th>Obra</th><th>Atividades</th><th>Observações</th><th>Status</th><th>Ações</th></tr>
+        <tr><th>Data</th><th>Obra</th><th>Atividades</th><th>Status (Atividade)</th><th>Aprovação</th><th>Usuário</th><th>Ações</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -107,6 +189,8 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <script src="static/js/rdo.js"></script>
 </body>
 </html>

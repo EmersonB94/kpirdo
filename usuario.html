@@ -7,10 +7,10 @@
 </head>
 <body>
   <div class="navbar">
-    <a href="inicio">Início</a>
-    <a href="obras">Obras</a>
-    <a href="usuario">Usuários</a>
-    <a href="rdo">RDO</a>
+    <a href="page_inicio">Início</a>
+    <a href="page_obras">Obras</a>
+    <a href="page_usuario" class="selecionado">Usuários</a>
+    <a href="page_rdo">RDO</a>
     <a href="#" onclick="logout()">Sair</a>
   </div>
   
@@ -32,10 +32,15 @@
         <option value="cliente">Cliente</option>
       </select>
 
-      <input type="password" id="senha" placeholder="Senha inicial">
+      <input type="password" id="senha" placeholder="Senha">
 
       <label>Obras vinculadas:</label>
       <select id="obrasVinculadas" multiple></select>
+
+      <select id="modusuario" name="status">
+        <option value="Sim">Sim</option>
+        <option value="Não">Não</option>
+      </select>
 
       <select id="status" name="status">
         <option value="Ativo">Ativo</option>
@@ -55,12 +60,12 @@
     <table id="tabelaUsuarios">
       <thead>
         <tr>
+          <th>#</th>
           <th>Nome</th>
           <th>Cargo</th>
           <th>E-mail</th>
-          <th>Senha</th>
           <th>Status</th>
-          <th>Obras</th>
+          <th>Acesso</th>
           <th>Ações</th>
         </tr>
       </thead>
