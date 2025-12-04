@@ -19,6 +19,23 @@ function atualizarSelectObras() {
   });
 }
 
+function formatarDataHora(dataISO) {
+  if (!dataISO) return "-";
+
+  const data = new Date(dataISO);
+
+  if (isNaN(data.getTime())) return dataISO; // fallback se der erro
+
+  const dia = String(data.getDate()).padStart(2, '0');
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const ano = data.getFullYear();
+
+  const hora = String(data.getHours()).padStart(2, '0');
+  const minuto = String(data.getMinutes()).padStart(2, '0');
+
+  return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+}
+
 
 let usuarioEditando = null;
 
@@ -31,13 +48,14 @@ async function salvarUsuario() {
   const cargo = document.getElementById('cargo').value;
   const contato = document.getElementById('contato').value;
   const perfilacesso = document.getElementById('perfilacesso').value;
+  const modusuario = document.getElementById('modusuario').value;
   const statususuario = document.getElementById('status').value;
 
   const obras = Array.from(document.getElementById('obrasVinculadas').selectedOptions)
     .map(o => o.value);
 
-  if (!nome || !email || !senha) {
-    alert('Preencha todos os campos obrigatórios!');
+  if (!nome || !email || !perfilacesso) {
+    alert('Preencha todos os campos obrigatórios! (nome, email, perfil de acesso)');
     return;
   }
 
@@ -48,6 +66,7 @@ async function salvarUsuario() {
     cargo,
     contato,
     perfilacesso,
+    modusuario,
     status: statususuario,
     permissaoobra: obras.join(",")
   };
@@ -79,8 +98,6 @@ async function salvarUsuario() {
   }
 }
 
-
-
 // LISTAR -----------------------------------------------------------
 async function listarUsuarios() {
   const tbody = document.querySelector('#tabelaUsuarios tbody');
@@ -89,7 +106,7 @@ async function listarUsuarios() {
   let usuarios;
 
   try {
-    const resp = await fetch(`${API_BASE}/usuarios`);
+    const resp = await fetch(`${API_BASE}/API/usuario`);
     usuarios = await resp.json();
   } catch (err) {
     console.error("Erro ao buscar usuários:", err);
@@ -110,15 +127,14 @@ async function listarUsuarios() {
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
+      <td>${u.id}</td>
       <td>${u.nome}</td>
       <td>${u.cargo ?? "-"}</td>
       <td>${u.email}</td>
-      <td>${u.senha ?? "-"}</td>
       <td>${u.status}</td>
-      <td>${obras.length > 0 ? obras.join(", ") : "-"}</td>
+      <td>${formatarDataHora(u.dtacesso)}</td>
       <td>
         <button onclick="editarUsuario(${u.id})">Editar</button>
-        <button onclick="excluirUsuario(${u.id})">Excluir</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -139,6 +155,7 @@ async function editarUsuario(id) {
   document.getElementById('cargo').value = u.cargo;
   document.getElementById('contato').value = u.contato;
   document.getElementById('perfilacesso').value = u.perfilacesso;
+  document.getElementById('modusuario').value = u.modusuario;
   document.getElementById('status').value = u.status;
 
   const obras = u.permissaoobra ? u.permissaoobra.split(",") : [];
@@ -150,8 +167,6 @@ async function editarUsuario(id) {
   abrirModal();
 }
 
-
-
 // LIMPAR -----------------------------------------------------------
 function limparFormulario() {
   document.getElementById('nome').value = '';
@@ -160,6 +175,7 @@ function limparFormulario() {
   document.getElementById('cargo').value = '';
   document.getElementById('contato').value = '';
   document.getElementById('perfilacesso').value = 'leitor';
+  document.getElementById('modusuario').value = 'Não';
   document.getElementById('status').value = 'Ativo';
 
   Array.from(document.getElementById('obrasVinculadas').options)
@@ -185,11 +201,9 @@ async function excluirUsuario(id) {
 
 // LOGOUT -----------------------------------------------------------
 function logout() {
-  localStorage.removeItem('usuarioLogado');
-  window.location.href = 'index.html';
+  localStorage.removeItem('usuarioLogadoRDO');
+  window.location.href = '/';
 }
-
-
 
 // MODAL ------------------------------------------------------------
 function abrirModal() {
@@ -207,7 +221,28 @@ window.onclick = function(event) {
   }
 };
 
+function verificarAcessoModuloUsuario() {
+  const usuarioSalvo = localStorage.getItem("usuarioLogadoRDO");
+
+  // Se não existir usuário logado, já bloqueia
+  if (!usuarioSalvo) {
+    window.location.href = "/"; // tela inicial
+    return;
+  }
+
+  const usuario = JSON.parse(usuarioSalvo);
+
+  // Verifica permissão
+  if (usuario.modusuario !== "Sim") {
+    alert("Você não tem permissão para acessar este módulo.");
+    window.location.href = "/page_inicio"; // tela inicial
+  }
+}
+
 window.onload = () => {
+  verificarAcessoModuloUsuario();
+
+  // suas outras funções
   atualizarSelectObras();
   listarUsuarios();
 };

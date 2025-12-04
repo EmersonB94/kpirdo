@@ -14,8 +14,8 @@ function login() {
   .then(res => res.json())
   .then(data => {
     if (data.status === "ok") {
-      localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-      window.location.href = "inicio";
+      localStorage.setItem('usuarioLogadoRDO', JSON.stringify(data.usuario));
+      window.location.href = "page_inicio";
     } else {
       alert("Usuário ou senha incorretos");
     }
@@ -25,8 +25,8 @@ function login() {
 
 
 function logout() {
-  localStorage.removeItem('usuarioLogado');
-  window.location.href = 'index.html';
+  localStorage.removeItem('usuarioLogadoRDO');
+  window.location.href = '/';
 }
 
 // Funções do modal

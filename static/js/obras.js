@@ -158,8 +158,8 @@ function carregarUsuariosSelect() {
 
 // === LOGOUT ===
 function logout() {
-  localStorage.removeItem('usuarioLogado');
-  window.location.href = 'index.html';
+  localStorage.removeItem('usuarioLogadoRDO');
+  window.location.href = '/';
 }
 
 

@@ -1,17 +1,26 @@
 function logout() {
-  localStorage.removeItem('usuarioLogado');
-  window.location.href = 'index.html';
+  localStorage.removeItem('usuarioLogadoRDO');
+  window.location.href = '/';
+}
+
+// Função para formatar datas
+function formatarData(dataISO) {
+  if (!dataISO) return "";
+  const d = new Date(dataISO);
+  const dia = String(d.getDate()).padStart(2, '0');
+  const mes = String(d.getMonth() + 1).padStart(2, '0');
+  const ano = d.getFullYear();
+  return `${dia}/${mes}/${ano}`;
 }
 
 window.onload = async () => {
-
   // 1️⃣ Buscar obras do banco
-  const obras = await fetch("http://localhost:5000/obras")
+  const obras = await fetch("http://localhost:5000/api_index/obras")
     .then(r => r.json())
     .catch(e => []);
 
   // 2️⃣ Buscar RDOs do banco
-  const rdos = await fetch("http://localhost:5000/rdos")
+  const rdos = await fetch("http://localhost:5000/api_index/rdos")
     .then(r => r.json())
     .catch(e => []);
 
@@ -27,10 +36,10 @@ window.onload = async () => {
   cardsContainer.innerHTML = '';
 
   obras.forEach(o => {
-    const totalRDO = rdos.filter(r => r.obra_id === o.id).length;
+    const totalRDO = rdos.filter(r => r.obra === o.nome).length;
 
     let statusColor = '#ccc';
-    switch (o.statusobra) {
+    switch (o.status) {
       case 'Não iniciada': statusColor = '#f0ad4e'; break;
       case 'Em andamento': statusColor = '#5bc0de'; break;
       case 'Paralisada': statusColor = '#d9534f'; break;
@@ -44,13 +53,11 @@ window.onload = async () => {
     card.innerHTML = `
       <h3>${o.nome}</h3>
       <p>Relatórios: ${totalRDO}</p>
-      <p><b>Responsável:</b> ${o.responsavel || '-'}</p>
-      <p><b>Local:</b> ${o.local || '-'}</p>
-      <p><b>Contratante:</b> ${o.contratante || '-'}</p>
-      <p><b>Status:</b> <span style="color:${statusColor}; font-weight:bold;">${o.statusobra || '-'}</span></p>
+      <p><b>Responsável:</b> ${o.contratoresponsavel || '-'}</p>
+      <p><b>Local:</b> ${o.id || '-'}</p>
+      <p><b>Contratante:</b> ${o.empresa || '-'}</p>
+      <p><b>Status:</b> <span style="color:${statusColor}; font-weight:bold;">${o.status || '-'}</span></p>
     `;
     cardsContainer.appendChild(card);
   });
-
 };
-
