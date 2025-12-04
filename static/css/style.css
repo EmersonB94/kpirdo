@@ -33,6 +33,10 @@ body {
   background: rgba(255, 255, 255, 0.9); /* Fundo branco levemente transparente */
 }
 
+.selecionado {
+  background-color:rgb(213, 239, 83);
+  color: #000000;
+}
 
 h1, h2 {
   color: #0E3E98;
