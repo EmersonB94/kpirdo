@@ -15,12 +15,12 @@ function formatarData(dataISO) {
 
 window.onload = async () => {
   // 1️⃣ Buscar obras do banco
-  const obras = await fetch("http://localhost:5000/api_index/obras")
+  const obras = await fetch("/api_index/obras")
     .then(r => r.json())
     .catch(e => []);
 
   // 2️⃣ Buscar RDOs do banco
-  const rdos = await fetch("http://localhost:5000/api_index/rdos")
+  const rdos = await fetch("/api_index/rdos")
     .then(r => r.json())
     .catch(e => []);
 
