@@ -47,8 +47,8 @@
 	<body>
 	<div class="navbar">
 		<a href="page_inicio">Início</a>
-    <a href="page_obras">Obras</a>
-    <a href="page_usuario">Usuários</a>
+    <a id="page_obras" href="page_obras">Obras</a>
+    <a id="page_usuario" href="page_usuario">Usuários</a>
     <a href="page_rdo" class="selecionado">RDO</a>
 		<a href="#" onclick="logout()">Sair</a>
   </div>
@@ -186,6 +186,36 @@
       <tbody></tbody>
     </table>
   </div>
+
+  <script>
+    // === Verificar acesso e desativar botão Usuários ===
+    document.addEventListener("DOMContentLoaded", () => {
+        // Buscar dados do localStorage
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogadoRDO"));
+
+        // Caso não exista, não faz nada
+        if (!usuario || !usuario.perfilacesso) return;
+
+        // Se NÃO for administrador -> desativa o botão
+        if (usuario.perfilacesso !== "administrador") {
+            const btnUsuarios = document.getElementById("page_usuario");
+            const btnObras = document.getElementById("page_obras");
+            
+            if (btnUsuarios) {
+                btnUsuarios.style.pointerEvents = "none";   // bloqueia clique
+                btnUsuarios.style.opacity = "0.4";           // marca visualmente
+                btnUsuarios.style.cursor = "not-allowed";    // cursor de bloqueado
+            }
+
+            if (btnObras) {
+                btnObras.style.pointerEvents = "none";   // bloqueia clique
+                btnObras.style.opacity = "0.4";           // marca visualmente
+                btnObras.style.cursor = "not-allowed";    // cursor de bloqueado
+            }
+        }
+    });
+  </script>
+
 
   
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
