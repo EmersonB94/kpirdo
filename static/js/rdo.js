@@ -551,8 +551,8 @@ async function gerarPDFRDO(rdo) {
     // ✅ CABEÇALHO DA TABELA
     doc.rect(col1, y, 120, rowHeight);
     doc.rect(col2, y, 30, rowHeight);
-    doc.text("Função", col1 + 2, y + 5);
-    doc.text("Qtd", col2 + 10, y + 5);
+    doc.text("Função:", col1 + 2, y + 5);
+    doc.text("Qnt:", col2 + 10, y + 5);
 
     y += rowHeight;
 
@@ -569,7 +569,7 @@ async function gerarPDFRDO(rdo) {
 
     // ✅ ATIVIDADES
     doc.setFontSize(13);
-    doc.text("ATIVIDADES EXECUTADAS", 20, y);
+    doc.text("ATIVIDADES EXECUTADAS:", 20, y);
     y += 8;
 
     doc.setFontSize(11);
@@ -578,12 +578,12 @@ async function gerarPDFRDO(rdo) {
     y += atividades.length * 6;
 
     y += 4;
-    linha("Status da Atividade", rdo.status_atividade);
+    linha("Status da Atividade:", rdo.status_atividade);
 
     // ✅ OBSERVAÇÕES
     y += 4;
     doc.setFontSize(13);
-    doc.text("OBSERVAÇÕES", 20, y);
+    doc.text("OBSERVAÇÕES:", 20, y);
     y += 8;
 
     doc.setFontSize(11);
@@ -594,7 +594,7 @@ async function gerarPDFRDO(rdo) {
     // ✅ OCORRÊNCIA
     y += 4;
     doc.setFontSize(13);
-    doc.text("OCORRÊNCIA", 20, y);
+    doc.text("OCORRÊNCIA:", 20, y);
     y += 8;
 
     doc.setFontSize(11);
@@ -605,7 +605,7 @@ async function gerarPDFRDO(rdo) {
     // ✅ COMENTÁRIO
     y += 4;
     doc.setFontSize(13);
-    doc.text("COMENTÁRIO", 20, y);
+    doc.text("COMENTÁRIO:", 20, y);
     y += 8;
 
     doc.setFontSize(11);
@@ -614,15 +614,34 @@ async function gerarPDFRDO(rdo) {
     y += comentario.length * 6;
 
     y += 5;
-    linha("STATUS DO RDO", rdo.status);
+    linha("STATUS RDO", rdo.status);
 
-    // ✅ ASSINATURA
-    y += 20;
-    doc.text("Assinatura do Responsável: ______________________________________", 20, y);
+    // ========================
+    // ASSINATURAS LADO A LADO
+    // ========================
+    y += 15;
+
+    const linhaY = y;
+    const linhaW = 70;   // largura da linha de assinatura
+    const espaco = 20;   // espaço entre as duas linhas
+
+    // Linha Responsável
+    doc.line(20, linhaY, 20 + linhaW, linhaY);
+
+    // Linha Fiscal
+    doc.line(20 + linhaW + espaco, linhaY, 20 + linhaW + espaco + linhaW, linhaY);
+
+    // Texto abaixo das linhas
+    doc.setFontSize(11);
+    doc.text("Responsável", 20 + linhaW / 2, linhaY + 6, { align: "center" });
+    doc.text("Fiscal", 20 + linhaW + espaco + linhaW / 2, linhaY + 6, { align: "center" });
+
+    // Atualiza Y para continuar
+    y = linhaY + 15;
 
     // ✅ RODAPÉ
     doc.setFontSize(9);
-    doc.text("Documento gerado automaticamente pelo sistema", 105, 290, { align: "center" });
+    doc.text("Documento gerado automaticamente pelo sistema kpirdo", 105, 290, { align: "center" });
 
     // ✅ NOME DO ARQUIVO
     const nomeArquivo = `RDO_${(rdo.obra || "obra").replace(/\s+/g, "_")}_${(rdo.data || "").split("T")[0]}.pdf`;
